@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Sound Match",
+  "name": "Sound match",
   "icons": [
     {
       "src": "favicon.ico",
