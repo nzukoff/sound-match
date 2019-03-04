@@ -1,26 +1,60 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
+import { withStyles } from '@material-ui/core/styles'
 import { selectRandomSound } from '../actions/index'
+import { Card, CardMedia, ButtonBase } from '@material-ui/core/';
 
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    paddingBottom: 10
+  },
+  imageCard: {
+    backgroundColor: 'transparent',
+    boxShadow: 'none'
+  },
+  image: {
+    height: 'auto',
+    width: 'auto',
+    maxHeight: 150,
+  },
+  button: {
+    borderRadius: 10,
+  }
+})
 
-class PlayButton extends Component {
-    createImage = () => {
-        document.querySelector("#image").src = this.props.playButtonImage
-    }
-
-    render() {
-        return (
-            <div className="Image">
-                {this.props.playButtonImage ? this.createImage() : null}
-                <img id="image" src="" alt="" onClick={() => this.props.selectRandomSound(this.props.sounds)}></img>
-            </div>
-        );
-    }
+export const PlayButton = (props) => {
+  const { classes } = props
+  return (
+      <div className={classes.root}>
+        {props.playButtonImage ? 
+          <ButtonBase
+            disableRipple={true}
+            onClick={() => props.selectRandomSound(props.sounds)}
+            className={classes.button}
+          >
+            <Card 
+              className={classes.imageCard} 
+              >
+              <CardMedia
+                className={classes.image}
+                image={props.playButtonImage}
+                component='img'
+                style={{cursor: 'pointer'}}
+              />
+            </Card> 
+          </ButtonBase>
+          : null 
+        }
+      </div>
+  );
 }
 
 const mapStateToProps = state => ({
   playButtonImage: state.playButtonImage,
-  sounds: state.sounds
+  sounds: state.sounds,
+  winner: state.winner
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -28,6 +62,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PlayButton)
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(PlayButton))

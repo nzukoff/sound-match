@@ -1,7 +1,6 @@
 const initialState = {
-  guessed: false,
-  randomSoundPlayed: false,
-  winningKey: new Array(16).fill(0)
+  gameKey: new Array(4).fill(new Array(4).fill(0)),
+  winner: false
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -13,7 +12,13 @@ const rootReducer = (state = initialState, action) => {
         sounds: action.sounds,
         playButtonImage: action.playButtonImage,
         baseButtonImage: action.baseButtonImage,
-        correctButtonImage: action.correctButtonImage
+        correctButtonImage: action.correctButtonImage,
+        winningButtonImage: action.winningButtonImage,
+        chosenSound: null,
+        randomSound: null,
+        gameKey: new Array(4).fill(new Array(4).fill(0)),
+        winner: false,
+        gameData: action.gameData
       })
 
     case 'RANDOM_SOUND_PLAYED':
@@ -32,8 +37,15 @@ const rootReducer = (state = initialState, action) => {
     case 'MATCH':
       return({
         ...state,
-        winningKey: action.winningKey,
+        gameKey: action.gameKey,
         sounds: action.sounds
+      })
+    
+    case 'WINNER':
+      return({
+        ...state,
+        gameKey: action.gameKey,
+        winner: action.winner
       })
 
     default:

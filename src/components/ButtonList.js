@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { playSound } from '../actions/index'
@@ -15,14 +15,17 @@ const styles = theme => ({
   },
   image: {
     position: 'relative',
-    height: 100,
-    width: 100,
-    '&:hover, &$focusVisible': {
+    height: 80,
+    width: 80,
+    // [theme.breakpoints.down('xs')]: {
+    //   width: 80,
+    //   height: 80,
+    // },
+    '&:hover': {
       zIndex: 1,
     },
     borderRadius: '10px'
   },
-  focusVisible: {},
   imageSrc: {
     position: 'absolute',
     left: 0,
@@ -32,55 +35,46 @@ const styles = theme => ({
     backgroundSize: 'cover',
     borderRadius: '10px'
   },
-  imageMarked: {
-    height: 3,
-    width: 18,
-    backgroundColor: theme.palette.common.white,
-    position: 'absolute',
-    bottom: -2,
-    left: 'calc(50% - 9px)',
-    transition: theme.transitions.create('opacity'),
-  },
   gridList: {
-    width: 416,
-    height: 416,
+    width: 335,
+    height: 335,
   },
 });
 
-class ButtonList extends Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.root}>
-        <GridList cellHeight={100} className={classes.gridList} cols={4}>
-          {this.props.sounds.map((sound, i) => (
-            <GridListTile key={sound.src} cols={1}>
-              <ButtonBase
-                focusRipple
-                key={sound.src+i}
-                className={classes.image}
-                focusVisibleClassName={classes.focusVisible}
-                onClick={() => this.props.playSound(this.props.sounds, sound)}
-                disabled={this.props.winningKey[i] === 1 ? true : false}
-              >
-                <span
-                  className={classes.imageSrc}
-                  style={this.props.winningKey[i] === 1 ? {backgroundImage: `url(${this.props.correctButtonImage})`} : {backgroundImage: `url(${this.props.baseButtonImage})`}}
-                />
-              </ButtonBase>
-            </GridListTile>
-          ))}
-        </GridList>
-      </div>
-    );
-  }
+export const ButtonList = (props) => {
+  const { classes, gameKey } = props;
+  let flatKey = gameKey.flat()
+  return (
+    <div className={classes.root}>
+      <GridList cellHeight={80} className={classes.gridList} cols={4}>
+        {props.sounds.map((sound, i) => (
+          <GridListTile key={sound.src} cols={1}>
+            <ButtonBase
+              focusRipple
+              key={sound.src+i}
+              className={classes.image}
+              onClick={() => props.playSound(props.sounds, sound)}
+              disabled={flatKey[i] === 1 || props.winner ? true : false}
+            >
+              <span
+                className={classes.imageSrc}
+                style={flatKey[i] === 1 ? {backgroundImage: `url(${props.correctButtonImage})`} : flatKey[i] === 2 ? {backgroundImage: `url(${props.winningButtonImage})`} : {backgroundImage: `url(${props.baseButtonImage})`}}
+              />
+            </ButtonBase>
+          </GridListTile>
+        ))}
+      </GridList>
+    </div>
+  );
 }
 
 const mapStateToProps = state => ({
   sounds: state.sounds,
   baseButtonImage: state.baseButtonImage,
   correctButtonImage: state.correctButtonImage,
-  winningKey: state.winningKey
+  winningButtonImage: state.winningButtonImage,
+  gameKey: state.gameKey,
+  winner: state.winner
 })
 
 const mapDispatchToProps = dispatch => ({
