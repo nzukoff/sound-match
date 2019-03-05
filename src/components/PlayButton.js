@@ -18,6 +18,7 @@ const styles = theme => ({
     height: 'auto',
     width: 'auto',
     maxHeight: 150,
+    maxWidth: 335
   },
   button: {
     borderRadius: 10,

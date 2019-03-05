@@ -39,10 +39,6 @@ const pauseAndPlay = (sounds, sound) => {
 export const selectRandomSound = (sounds) => {
   return (dispatch, getState) => {
     let { randomSound, chosenSound, gameKey, winner, title, gameData } = getState()
-    if (winner) {
-      dispatch(setupGame(gameData, 16, title))
-      return 
-    }
     const flatKey = gameKey.flat()
     const filteredSounds = sounds.filter((s, i) => !flatKey[i])
     if (!randomSound || chosenSound) {

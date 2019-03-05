@@ -14,13 +14,9 @@ const styles = theme => ({
     overflow: 'hidden',
   },
   image: {
-    position: 'relative',
-    height: 80,
-    width: 80,
-    // [theme.breakpoints.down('xs')]: {
-    //   width: 80,
-    //   height: 80,
-    // },
+    position: 'absolute',
+    height: 75,
+    width: 75,
     '&:hover': {
       zIndex: 1,
     },
@@ -33,11 +29,11 @@ const styles = theme => ({
     top: 0,
     bottom: 0,
     backgroundSize: 'cover',
-    borderRadius: '10px'
+    borderRadius: '10px',
   },
   gridList: {
-    width: 335,
-    height: 335,
+    width: 316,
+    height: 316,
   },
 });
 
@@ -46,7 +42,7 @@ export const ButtonList = (props) => {
   let flatKey = gameKey.flat()
   return (
     <div className={classes.root}>
-      <GridList cellHeight={80} className={classes.gridList} cols={4}>
+      <GridList cellHeight={75} className={classes.gridList} cols={4} >
         {props.sounds.map((sound, i) => (
           <GridListTile key={sound.src} cols={1}>
             <ButtonBase

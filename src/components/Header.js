@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { setupGame } from '../actions/index'
 
-import { AppBar, Toolbar, Typography, ButtonBase, Card, CardMedia } from '@material-ui/core'
+import { AppBar, Toolbar, Typography, ButtonBase, Card, CardMedia, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
 const styles = theme => ({
@@ -34,30 +34,37 @@ export const Header = (props) => {
     <div className="Header">
       <AppBar position="static" className={classes.root}>
         <Toolbar>
-          <Typography variant="h4" className={classes.grow}>
-            {props.title ? props.title.toUpperCase() : null}
-          </Typography>
-          {props.gameData ? 
-            props.gameData.map((game) => {
-              return (
-                <ButtonBase
-                  key={game.title}
-                  onClick={() => props.setupGame(props.gameData, 16, game.title)}
-                >
-                  <Card 
-                    className={classes.imageCard}>
-                    <CardMedia
-                      className={classes.image}
-                      image={game.setButton}
-                      component='img'
-                      style={{cursor: 'pointer'}}
-                    />
-                  </Card> 
-                </ButtonBase>
-              )
-            }) 
-            : null
-          }
+          <Grid container >
+            <Grid item xs>
+              <Typography variant="h4" className={classes.grow}>
+                {props.title ? props.title.toUpperCase() : null}
+              </Typography>
+            </Grid>
+
+            <Grid item container xs justify='flex-end'>  
+              {props.gameData ? 
+                props.gameData.map((game) => {
+                  return (
+                    <ButtonBase
+                      key={game.title}
+                      onClick={() => props.setupGame(props.gameData, 16, game.title)}
+                    >
+                      <Card 
+                        className={classes.imageCard}>
+                        <CardMedia
+                          className={classes.image}
+                          image={game.setButton}
+                          component='img'
+                          style={{cursor: 'pointer'}}
+                        />
+                      </Card> 
+                    </ButtonBase>
+                  )
+                }) 
+                : null
+              }
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
     </div>
